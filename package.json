@@ -1,0 +1,37 @@
+{
+  "name": "luzhanqi",
+  "version": "1.0.0",
+  "description": "Luzhanqi Board Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "start": "npm run build && node dist/index.js",
+    "lint": "node node_modules/eslint/bin/eslint.js -c .eslintrc ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DefoyPhilip/Luzhanqi.git"
+  },
+  "author": "DefoyPhilip",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DefoyPhilip/Luzhanqi/issues"
+  },
+  "homepage": "https://github.com/DefoyPhilip/Luzhanqi#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-babel": "^5.2.1",
+    "rimraf": "^2.6.2"
+  }
+}
