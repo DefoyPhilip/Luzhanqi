@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "npm run build && node dist/index.js",
-    "lint": "node node_modules/eslint/bin/eslint.js -c .eslintrc ./index.js"
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./coverage,./test,./npm-debug.log --copy-files",
+    "start-server": "npm run build && node dist/src/back-end/index.js",
+    "lint": "node node_modules/eslint/bin/eslint.js -c .eslintrc ./src/**/*",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -24,14 +25,16 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^5.2.0",
     "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-babel": "^5.2.1",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
-    "eslint-plugin-babel": "^5.2.1",
+    "jest": "^23.6.0",
     "rimraf": "^2.6.2"
   }
 }

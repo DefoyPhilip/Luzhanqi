@@ -1,9 +1,12 @@
 {
   "extends": 'eslint-config-airbnb',
-  "env": { "browser" : true },
+  "env": {
+  	"browser" : true,
+  	"jest": true
+  },
   "parser": "babel-eslint",
   "rules": {
-    linebreak-style: ["error", "windows"]
+    linebreak-style: [2, "windows"]
   },
   "plugins": [
       "babel"
