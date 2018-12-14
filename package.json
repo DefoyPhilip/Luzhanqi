@@ -4,11 +4,10 @@
   "description": "Luzhanqi Board Game",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "jest --coverage",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./coverage,./test,./npm-debug.log --copy-files",
     "start-server": "npm run build && node dist/src/back-end/index.js",
-    "lint": "node node_modules/eslint/bin/eslint.js -c .eslintrc ./src/**/*",
-    "test": "jest --coverage"
+    "lint": "node node_modules/eslint/bin/eslint.js -c .eslintrc ./src/**/*"
   },
   "repository": {
     "type": "git",
@@ -21,7 +20,8 @@
   },
   "homepage": "https://github.com/DefoyPhilip/Luzhanqi#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "uniqid": "^5.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
