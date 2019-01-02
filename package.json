@@ -2,7 +2,7 @@
   "name": "luzhanqi",
   "version": "1.0.0",
   "description": "Luzhanqi Board Game",
-  "main": "index.js",
+  "main": "dist/src/back-end/index.js",
   "scripts": {
     "test": "jest --coverage",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./coverage,./test,./npm-debug.log --copy-files",
@@ -22,6 +22,11 @@
   "dependencies": {
     "express": "^4.16.4",
     "uniqid": "^5.0.3"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
