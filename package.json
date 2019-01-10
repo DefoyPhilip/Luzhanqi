@@ -21,6 +21,7 @@
   "homepage": "https://github.com/DefoyPhilip/Luzhanqi#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "socket.io": "^2.2.0",
     "uniqid": "^5.0.3"
   },
   "jest": {
