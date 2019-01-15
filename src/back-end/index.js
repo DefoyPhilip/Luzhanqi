@@ -14,8 +14,16 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
+let activeUser = 0;
+
+io.on('connection', (sock) => {
+  console.log(`user${activeUser} connected`);
+  sock.join(`user${activeUser}`);
+  activeUser += 1;
+  sock.on('chat message', (msg) => {
+    io.to('user0').emit('chat message', msg);
+  });
+  sock.on('disconnect', () => {
+    console.log('user disconnected');
   });
 });

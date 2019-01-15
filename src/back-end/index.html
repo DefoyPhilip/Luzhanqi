@@ -29,6 +29,12 @@
         text.value = '';
         return false;
       }, false);
+      socket.on('chat message', function(msg){
+        var node = document.createElement("LI");
+        var textnode = document.createTextNode(msg);
+        node.appendChild(textnode);   
+        document.getElementById("messages").appendChild(node);
+      });
     </script>
   </body>
 </html>
