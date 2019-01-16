@@ -1,16 +1,16 @@
-import Brigadier from '../src/back-end/models/pieces/Brigadier';
-import Captain from '../src/back-end/models/pieces/Captain';
-import Colonel from '../src/back-end/models/pieces/Colonel';
-import Commander from '../src/back-end/models/pieces/Commander';
-import Engineer from '../src/back-end/models/pieces/Engineer';
-import Flag from '../src/back-end/models/pieces/Flag';
-import General from '../src/back-end/models/pieces/General';
-import Grenade from '../src/back-end/models/pieces/Grenade';
-import Landmine from '../src/back-end/models/pieces/Landmine';
-import Lieutenant from '../src/back-end/models/pieces/Lieutenant';
-import Major from '../src/back-end/models/pieces/Major';
-import Marshall from '../src/back-end/models/pieces/Marshall';
-import Fight from '../src/back-end/models/Fight';
+import Brigadier from '../src/back-end/models/game/pieces/Brigadier';
+import Captain from '../src/back-end/models/game/pieces/Captain';
+import Colonel from '../src/back-end/models/game/pieces/Colonel';
+import Commander from '../src/back-end/models/game/pieces/Commander';
+import Engineer from '../src/back-end/models/game/pieces/Engineer';
+import Flag from '../src/back-end/models/game/pieces/Flag';
+import General from '../src/back-end/models/game/pieces/General';
+import Grenade from '../src/back-end/models/game/pieces/Grenade';
+import Landmine from '../src/back-end/models/game/pieces/Landmine';
+import Lieutenant from '../src/back-end/models/game/pieces/Lieutenant';
+import Major from '../src/back-end/models/game/pieces/Major';
+import Marshall from '../src/back-end/models/game/pieces/Marshall';
+import Fight from '../src/back-end/models/game/Fight';
 
 describe('Test pieces fight result', () => {
   const brigadier = new Brigadier();

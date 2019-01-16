@@ -9,7 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import MainReducer from './reducers/MainReducer';
 
 const enhancer = compose(
-  persistState(),
+  persistState(['user']),
 )
 
 const store = createStore(MainReducer, {}, enhancer)

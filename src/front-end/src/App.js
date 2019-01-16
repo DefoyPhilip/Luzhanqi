@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import openSocket from 'socket.io-client';
 import styled from 'styled-components'
-import './App.css';
 import { addMessage } from './actions/appActions';
+import { connectUser } from './actions/userActions';
 
 const Form = styled.form`
   background: #000;
@@ -57,12 +57,16 @@ class App extends Component {
     this.formSubmit = this.formSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     socket.on('chat message', props.addMessage);
+    socket.on('connected', (msg) => {
+      props.connectUser(msg.id, msg.name);
+    });
   }
 
   formSubmit(e) {
     const { socket, inputValue } = this.state;
+    const { name } = this.props;
     e.preventDefault();
-    socket.emit('chat message', inputValue);
+    socket.emit('chat message', `${name}: ${inputValue}`);
     this.setState({ inputValue: "" })
   }
 
@@ -94,12 +98,15 @@ class App extends Component {
 
 const reselector = createSelector(
     state => state.app.messages,
-    (messages) => ({
+    state => state.user.name,
+    (messages, name) => ({
         messages,
+        name,
     }),
 );
 
 export default connect(reselector, {
     addMessage,
+    connectUser,
 })(App);
  
