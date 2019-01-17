@@ -15,9 +15,20 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/index.html'));
 });
 
+let activeUser = {};
+
 io.on('connection', (sock) => {
+  const { id } = sock.handshake.query;
+  let user;
+  if (id && activeUser[id]) {
+    user = activeUser[id];
+  } else {
+    user = new User();
+    activeUser = Object.assign({}, activeUser, {
+      [user.id]: user,
+    });
+  }
   // sock.join(`user${activeUser}`);
-  const user = new User();
   console.log(`${user.name} connected`);
   sock.emit('connected', user);
   sock.on('chat message', (msg) => {

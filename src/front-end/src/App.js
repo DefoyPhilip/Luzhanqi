@@ -47,8 +47,11 @@ const Li = styled.li`
 class App extends Component {
   constructor(props) {
     super(props);
-    const socket = openSocket('http://localhost:3000');
-    console.log(socket)
+    let url = 'http://localhost:3000';
+    if (props.id) {
+      url = `${url}?id=${props.id}`;
+    }
+    const socket = openSocket(url);
     this.state = {
       socket,
       inputValue: "",
@@ -98,10 +101,11 @@ class App extends Component {
 
 const reselector = createSelector(
     state => state.app.messages,
-    state => state.user.name,
-    (messages, name) => ({
+    state => state.user,
+    (messages, user) => ({
         messages,
-        name,
+        name: user.name,
+        id: user.id,
     }),
 );
 
