@@ -29,8 +29,8 @@ io.on('connection', (sock) => {
     });
   }
   // sock.join(`user${activeUser}`);
-  console.log(`${user.name} connected`);
   sock.emit('connected', user);
+  io.emit('chat message', `User ${user.name} connected`);
   sock.on('chat message', (msg) => {
     // io.to('user0').emit('chat message', msg);
     io.emit('chat message', msg);
