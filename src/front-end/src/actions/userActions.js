@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
 
-export const CONNECTED = 'CONNECTED';
+export const SET_USER_VALUES = 'SET_USER_VALUES';
 
-export function connectUser(id, name) {
-    return createAction(CONNECTED)({ id, name });
+export function setUserValues(id, name) {
+    return createAction(SET_USER_VALUES)({ id, name });
 }

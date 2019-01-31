@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import openSocket from 'socket.io-client';
 import styled from 'styled-components'
+import SocketContext from './SocketContext';
 import { addMessage } from './actions/appActions';
-import { connectUser } from './actions/userActions';
+import { setUserValues } from './actions/userActions';
 import SideBar from './views/sidebar/SideBar';
 import ChatMessages from './views/chatMessages/ChatMessages';
 
@@ -70,7 +71,7 @@ class App extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     socket.on('chat message', props.addMessage);
     socket.on('connected', (payload) => {
-      props.connectUser(payload.id, payload.name);
+      props.setUserValues(payload.id, payload.name);
     });
   }
 
@@ -87,26 +88,28 @@ class App extends Component {
   }
 
   render() {
-    const { inputValue } = this.state;
+    const { inputValue, socket } = this.state;
     const { messages } = this.props;
     return (
-      <Page>
-        <SideBar />
-        <Container>
-          <ChatMessages>
-            {messages.map(message => (<Li>{message}</Li>))}
-          </ChatMessages>
-          <Form onSubmit={this.formSubmit}>
-            <Input
-              id="chat-text"
-              autoComplete="off"
-              value={inputValue}
-              onChange={this.onInputChange}
-            />
-            <Button>Send</Button>
-          </Form>
-        </Container>
-      </Page>
+      <SocketContext.Provider value={{ socket }}>
+        <Page>
+          <SideBar />
+          <Container>
+            <ChatMessages>
+              {messages.map(message => (<Li>{message}</Li>))}
+            </ChatMessages>
+            <Form onSubmit={this.formSubmit}>
+              <Input
+                id="chat-text"
+                autoComplete="off"
+                value={inputValue}
+                onChange={this.onInputChange}
+              />
+              <Button>Send</Button>
+            </Form>
+          </Container>
+        </Page>
+      </SocketContext.Provider>
     );
   }
 }
@@ -123,5 +126,5 @@ const reselector = createSelector(
 
 export default connect(reselector, {
     addMessage,
-    connectUser,
+    setUserValues,
 })(App);

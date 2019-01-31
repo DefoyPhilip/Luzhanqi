@@ -1,8 +1,8 @@
-import { CONNECTED } from '../../actions/userActions';
+import { SET_USER_VALUES } from '../../actions/userActions';
 
 function userReducer(state = {}, action) {
     switch (action.type) {
-    case CONNECTED: {
+    case SET_USER_VALUES: {
         return Object.assign({}, state, {
             id: action.payload.id,
             name: action.payload.name,

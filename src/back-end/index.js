@@ -35,7 +35,13 @@ io.on('connection', (sock) => {
     // io.to('user0').emit('chat message', msg);
     io.emit('chat message', msg);
   });
+  sock.on('update name', (payload) => {
+    user.name = payload.name;
+  });
   sock.on('disconnect', () => {
+    activeUser = Object.assign({}, activeUser, {
+      [user.id]: user,
+    });
     console.log('user disconnected');
   });
 });
