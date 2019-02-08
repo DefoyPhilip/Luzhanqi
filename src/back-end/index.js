@@ -15,31 +15,32 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-let activeUser = {};
+let activeUsers = {};
 
 io.on('connection', (sock) => {
   const { id } = sock.handshake.query;
   let user;
-  if (id && activeUser[id]) {
-    user = activeUser[id];
+  if (id && activeUsers[id]) {
+    user = activeUsers[id];
   } else {
     user = new User();
-    activeUser = Object.assign({}, activeUser, {
+    activeUsers = Object.assign({}, activeUsers, {
       [user.id]: user,
     });
   }
-  // sock.join(`user${activeUser}`);
-  sock.emit('connected', user);
-  io.emit('chat message', `User ${user.name} connected`);
+  // sock.join(`user${activeUsers}`);
+  sock.emit('connected', { user, activeUsers });
+  io.emit('global:connected msg', `User ${user.name} connected`);
   sock.on('chat message', (msg) => {
     // io.to('user0').emit('chat message', msg);
-    io.emit('chat message', msg);
+    io.emit('global:chat message', msg);
   });
   sock.on('update name', (payload) => {
     user.name = payload.name;
+    io.emit('global:update name', user);
   });
   sock.on('disconnect', () => {
-    activeUser = Object.assign({}, activeUser, {
+    activeUsers = Object.assign({}, activeUsers, {
       [user.id]: user,
     });
     console.log('user disconnected');

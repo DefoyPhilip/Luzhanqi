@@ -7,10 +7,11 @@ const initialState = {
 function appState(state = initialState, action) {
     switch (action.type) {
     case SET_MESSAGES: {
+        const { message, lvl } = action.payload;
         return Object.assign({}, state, {
             messages: [
                 ...state.messages,
-                action.payload.message,
+                { message, lvl },
             ],
         });
     }

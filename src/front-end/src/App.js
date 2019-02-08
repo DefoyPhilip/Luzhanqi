@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import SocketContext from './SocketContext';
 import { addMessage } from './actions/appActions';
 import { setUserValues } from './actions/userActions';
+import { setUsers } from './actions/usersActions';
 import SideBar from './views/sidebar/SideBar';
 import ChatMessages from './views/chatMessages/ChatMessages';
 
@@ -48,9 +49,10 @@ const Button = styled.button`
 
 const Li = styled.li`
   padding: 5px 10px;
+  background: ${({ lvl }) => (lvl === 'admin' ? '#e5e69e' : 'inherit')}
 
   :nth-child(odd) {
-    background: #d6d6d6;
+    background: ${({ lvl }) => (lvl === 'admin' ? '#e5e69e' : '#d6d6d6')};
   }
 `;
 
@@ -69,9 +71,13 @@ class App extends Component {
     }
     this.formSubmit = this.formSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
-    socket.on('chat message', props.addMessage);
-    socket.on('connected', (payload) => {
-      props.setUserValues(payload.id, payload.name);
+    socket.on('global:chat message', props.addMessage);
+    socket.on('global:connected msg', (msg) => {
+      props.addMessage(msg, 'admin')
+    });
+    socket.on('connected', ({ user, activeUsers }) => {
+      props.setUserValues(user.id, user.name);
+      props.setUsers(activeUsers);
     });
   }
 
@@ -96,7 +102,7 @@ class App extends Component {
           <SideBar />
           <Container>
             <ChatMessages>
-              {messages.map(message => (<Li>{message}</Li>))}
+              {messages.map(msgObject => (<Li lvl={msgObject.lvl} >{msgObject.message}</Li>))}
             </ChatMessages>
             <Form onSubmit={this.formSubmit}>
               <Input
@@ -127,4 +133,5 @@ const reselector = createSelector(
 export default connect(reselector, {
     addMessage,
     setUserValues,
+    setUsers
 })(App);

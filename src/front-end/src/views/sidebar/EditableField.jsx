@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components'
 import IconButton from '../../components/IconButton';
+import SideBarLabel from './SideBarLabel';
 
 const Container = styled.div`
     display: flex;
@@ -9,17 +10,11 @@ const Container = styled.div`
     font-size: 24px; 
 `;
 
-const Label = styled.label`
-    display: inline-block;
-    margin-right: 5px;
-    font-size: 30px;
-`;
-
 const Value = styled.p`
     display: inline-block;
 `;
 
-const TestSection = styled.div`
+const Field = styled.div`
     flex-grow: 3;
 `;
 
@@ -83,10 +78,10 @@ class EditableField extends Component {
         const { name } = this.state;
         return (
             <Container>
-                <TestSection>
-                    <Label>{name}:</Label>
+                <Field>
+                    <SideBarLabel>{name}:</SideBarLabel>
                     {this.renderValue()}
-                </TestSection>
+                </Field>
                 {this.renderButtonSection()}
             </Container>
         );
