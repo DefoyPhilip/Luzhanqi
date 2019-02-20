@@ -1,4 +1,4 @@
-import { SET_USERS } from '../../actions/usersActions';
+import { SET_USERS, REMOVE_USERS } from '../../actions/usersActions';
 
 function users(state = {}, action) {
     switch (action.type) {
@@ -14,6 +14,11 @@ function users(state = {}, action) {
             })
         })
         return newState;
+    }
+    case REMOVE_USERS: {
+        const tempState = state;
+        delete tempState[action.payload.userId];
+        return Object.assign({}, tempState);
     }
     default:
         return state;

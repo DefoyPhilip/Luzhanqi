@@ -29,7 +29,8 @@ io.on('connection', (sock) => {
     });
   }
   // sock.join(`user${activeUsers}`);
-  sock.emit('connected', { user, activeUsers });
+  sock.emit('connected', user);
+  io.emit('global:new users', activeUsers);
   io.emit('global:connected msg', `User ${user.name} connected`);
   sock.on('chat message', (msg) => {
     // io.to('user0').emit('chat message', msg);
@@ -43,6 +44,6 @@ io.on('connection', (sock) => {
     activeUsers = Object.assign({}, activeUsers, {
       [user.id]: user,
     });
-    console.log('user disconnected');
+    io.emit('global:user disconnected', user.id);
   });
 });

@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import SocketContext from './SocketContext';
 import { addMessage } from './actions/appActions';
 import { setUserValues } from './actions/userActions';
-import { setUsers } from './actions/usersActions';
+import { setUsers, removeUsers } from './actions/usersActions';
 import SideBar from './views/sidebar/SideBar';
 import ChatMessages from './views/chatMessages/ChatMessages';
 
@@ -75,9 +75,15 @@ class App extends Component {
     socket.on('global:connected msg', (msg) => {
       props.addMessage(msg, 'admin')
     });
-    socket.on('connected', ({ user, activeUsers }) => {
-      props.setUserValues(user.id, user.name);
+    socket.on('global:new users', activeUsers => {
       props.setUsers(activeUsers);
+    });
+    socket.on('connected', user => {
+      props.setUserValues(user.id, user.name);
+    });
+    socket.on('global:user disconnected', userId => {
+      console.log(userId)
+      props.removeUsers(userId);
     });
   }
 
@@ -133,5 +139,6 @@ const reselector = createSelector(
 export default connect(reselector, {
     addMessage,
     setUserValues,
-    setUsers
+    setUsers,
+    removeUsers
 })(App);
