@@ -71,9 +71,14 @@ class App extends Component {
     }
     this.formSubmit = this.formSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
-    socket.on('global:chat message', props.addMessage);
+    socket.on('global:chat message', ({msg, room}) => {
+      props.addMessage(msg, room);
+    });
+    socket.on(`${props.id}:chat message`, ({msg, room}) => {
+      props.addMessage(msg, room);
+    });
     socket.on('global:connected msg', (msg) => {
-      props.addMessage(msg, 'admin')
+      props.addMessage(msg, 'lobby', 'admin')
     });
     socket.on('global:new users', activeUsers => {
       props.setUsers(activeUsers);
@@ -89,9 +94,9 @@ class App extends Component {
 
   formSubmit(e) {
     const { socket, inputValue } = this.state;
-    const { name } = this.props;
+    const { name, room } = this.props;
     e.preventDefault();
-    socket.emit('chat message', `${name}: ${inputValue}`);
+    socket.emit('chat message', { room, msg: `${name}: ${inputValue}` });
     this.setState({ inputValue: "" })
   }
 
@@ -101,14 +106,14 @@ class App extends Component {
 
   render() {
     const { inputValue, socket } = this.state;
-    const { messages } = this.props;
+    const { messages, room } = this.props;
     return (
       <SocketContext.Provider value={{ socket }}>
         <Page>
           <SideBar />
           <Container>
             <ChatMessages>
-              {messages.map(msgObject => (<Li lvl={msgObject.lvl} >{msgObject.message}</Li>))}
+              {messages[room].map(msgObject => (<Li lvl={msgObject.lvl} >{msgObject.message}</Li>))}
             </ChatMessages>
             <Form onSubmit={this.formSubmit}>
               <Input
@@ -127,10 +132,11 @@ class App extends Component {
 }
 
 const reselector = createSelector(
-    state => state.app.messages,
+    state => state.app,
     state => state.user,
-    (messages, user) => ({
-        messages,
+    (app, user) => ({
+        messages: app.messages,
+        room: app.room,
         name: user.name,
         id: user.id,
     }),
